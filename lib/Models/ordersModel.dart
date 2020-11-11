@@ -1,13 +1,13 @@
 class Orders {
   int orderid;
   String medicalStore;
-  String DateandTime;
+  String dateandTime;
   String totalQty;
-  String M_id;
+  String mId;
 
   Orders(
-      {this.DateandTime,
-      this.M_id,
+      {this.dateandTime,
+      this.mId,
       this.medicalStore,
       this.orderid,
       this.totalQty});
@@ -15,9 +15,9 @@ class Orders {
     var map = <String, dynamic>{
       'id': orderid,
       'medicalStore': medicalStore,
-      'DateandTime': DateandTime,
+      'dateandTime': dateandTime,
       'totalQty': totalQty,
-      'M_id': M_id,
+      'mId': mId,
     };
     return map;
   }
@@ -25,8 +25,8 @@ class Orders {
   Orders.fromMap(Map<String, dynamic> map) {
     orderid = map['id'];
     medicalStore = map['medicalStore'];
-    DateandTime = map['DateandTime'];
+    dateandTime = map['dateandTime'];
     totalQty = map['totalQty'];
-    M_id = map['M_id'];
+    mId = map['mId'];
   }
 }

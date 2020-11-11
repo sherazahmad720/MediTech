@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:get/get.dart';
+import 'package:medi_tech/src/pages/medicine_list.dart';
 import 'package:medi_tech/src/widgets/heading_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -32,11 +34,16 @@ class _HomePageState extends State<HomePage> {
                     heading: "Mediacal \nStores",
                     icon: Icon(Icons.store, color: Colors.white),
                   ),
-                  HeadingCard(
-                      color: Color(0xff2DCE89),
-                      count: "10",
-                      heading: "Medicines\n",
-                      icon: Icon(FontAwesome.ambulance, color: Colors.white))
+                  InkWell(
+                    onTap: () {
+                      Get.to(MedicineList());
+                    },
+                    child: HeadingCard(
+                        color: Color(0xff2DCE89),
+                        count: "10",
+                        heading: "Medicines\n",
+                        icon: Icon(FontAwesome.ambulance, color: Colors.white)),
+                  )
                 ],
               ),
             ),
