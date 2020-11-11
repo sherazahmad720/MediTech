@@ -1,4 +1,7 @@
 import 'dart:io';
+import 'package:get/get.dart';
+import 'package:medi_tech/Models/MedicineModel.dart';
+import 'package:medi_tech/src/controllers/db_controller.dart';
 import 'package:path/path.dart' as path;
 // import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -12,10 +15,12 @@ class MyDialog extends StatefulWidget {
 }
 
 class _MyDialogState extends State<MyDialog> {
+  final DbController dbController = Get.put(DbController());
   final nameController = TextEditingController();
+  final priceController = TextEditingController();
   bool _isUploading = false;
   String errorText = "";
-  String dropdownValue = "Inj";
+  String dropdownValue = "Injections";
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +34,8 @@ class _MyDialogState extends State<MyDialog> {
               child: Container(
                   child: Center(
                 child: Text("Add ${widget.dialoagFor}",
-                    style: TextStyle(color: Colors.indigo[600], fontSize: 20)),
+                    style: TextStyle(
+                        color: Theme.of(context).primaryColor, fontSize: 20)),
               )),
             ),
             Padding(
@@ -53,7 +59,7 @@ class _MyDialogState extends State<MyDialog> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5.0),
               child: TextField(
-                controller: nameController,
+                controller: priceController,
                 decoration: InputDecoration(
                     hintText: "Enter Price",
                     border: OutlineInputBorder(
@@ -76,13 +82,21 @@ class _MyDialogState extends State<MyDialog> {
                         BoxDecoration(border: Border.all(color: Colors.grey)),
                     child: Row(
                       children: [
-                        Text("Select Category"),
+                        Text("Select Category",
+                            style: TextStyle(color: Colors.black45)),
                         SizedBox(
                           width: 10,
                         ),
                         DropdownButton(
                           value: dropdownValue,
-                          items: <String>['Tablet', 'Inj'].map((String value) {
+                          items: <String>[
+                            'Capsules',
+                            'Drops',
+                            'Injections',
+                            'Liquid',
+                            'Other',
+                            'Tablet'
+                          ].map((String value) {
                             return new DropdownMenuItem<String>(
                               value: value,
                               child: new Text(value),
@@ -106,7 +120,7 @@ class _MyDialogState extends State<MyDialog> {
               children: [
                 RaisedButton(
                   textColor: Colors.white,
-                  color: Colors.indigo[600],
+                  color: Theme.of(context).primaryColor,
                   child: Text("Cancel"),
                   onPressed: () {
                     Navigator.of(context).pop();
@@ -120,21 +134,28 @@ class _MyDialogState extends State<MyDialog> {
                     ? CircularProgressIndicator()
                     : RaisedButton(
                         textColor: Colors.white,
-                        color: Colors.indigo[600],
+                        color: Theme.of(context).primaryColor,
                         child: Text("Add"),
                         onPressed: () {
                           if (nameController.text != "") {
-                            setState(() {
-                              _isUploading = true;
-                            });
+                            // setState(() {
+                            //   _isUploading = true;
+                            // });
                             print('Add is pressed');
+                            Medicine data = Medicine(
+                                // medId: 9,
+                                name: nameController.text,
+                                price: priceController.text,
+                                type: dropdownValue);
+                            dbController
+                                .saveMedicine(data)
+                                .then((value) => Get.back());
                           } else {
                             setState(() {
-                              errorText = "Please Add Name of Category";
+                              errorText = "Please Add Name of Medicine...!";
                             });
                             print('Field is empty');
                           }
-                          // goToQuizPage("final", subject);
                         },
                       ),
               ],

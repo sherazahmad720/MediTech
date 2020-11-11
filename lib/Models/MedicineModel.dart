@@ -1,25 +1,25 @@
 class Medicine {
-  int medid;
+  int medId;
   String name;
   String price;
   String type;
 
-  Medicine({this.name, this.medid, this.type, this.price});
+  Medicine({this.name, this.medId, this.type, this.price});
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
-      'id': medid,
-      'name': name,
-      'type': type,
-      'pure': price,
+      'medId': medId,
+      'medName': name,
+      'medType': type,
+      'medPrice': price,
     };
     return map;
   }
 
   Medicine.fromMap(Map<String, dynamic> map) {
-    medid = map['id'];
-    name = map['name'];
+    medId = map['medId'];
+    name = map['medName'];
 
-    price = map['pure'];
-    type = map['type'];
+    price = map['medPrice'];
+    type = map['medType'];
   }
 }

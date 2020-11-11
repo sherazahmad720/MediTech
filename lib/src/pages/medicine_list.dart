@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:medi_tech/src/controllers/db_controller.dart';
 import 'package:medi_tech/src/widgets/dialoge.dart';
 import 'package:medi_tech/src/widgets/medicine_card.dart';
 
@@ -8,6 +10,7 @@ class MedicineList extends StatefulWidget {
 }
 
 class _MedicineListState extends State<MedicineList> {
+  final DbController dbController = Get.put(DbController());
   String seachText = "";
   TextEditingController editingController = TextEditingController();
   Icon serachIcon = Icon(Icons.search, color: Colors.white);
@@ -64,18 +67,21 @@ class _MedicineListState extends State<MedicineList> {
         },
         isExtended: true,
       ),
-      body: Container(
-        child: Column(
+      body: Container(child: GetBuilder<DbController>(builder: (_) {
+        return Column(
           children: [
             Expanded(
-                child: ListView.builder(
-                    itemCount: 2,
-                    itemBuilder: (context, index) {
-                      return medicineCard("pic", "Peracitamole", "790");
-                    }))
+                child: ListView(
+              children: [
+                for (var data in _.medicineList)
+                  data.name.contains(seachText)
+                      ? medicineCard(data.type, data.name, data.price)
+                      : SizedBox()
+              ],
+            ))
           ],
-        ),
-      ),
+        );
+      })),
     );
   }
 }

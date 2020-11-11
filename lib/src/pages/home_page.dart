@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
+import 'package:medi_tech/src/controllers/db_controller.dart';
 import 'package:medi_tech/src/pages/medicine_list.dart';
 import 'package:medi_tech/src/widgets/heading_widget.dart';
 
@@ -10,6 +11,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final DbController dbController = Get.put(DbController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,6 +38,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   InkWell(
                     onTap: () {
+                      // dbController.getMedicineList();
                       Get.to(MedicineList());
                     },
                     child: HeadingCard(
