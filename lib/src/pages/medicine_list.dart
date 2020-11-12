@@ -52,7 +52,8 @@ class _MedicineListState extends State<MedicineList> {
                 }
               });
             })
-      ], title: !_isSearch ? appBar() : searchBar()),
+      ],
+       title: !_isSearch ? appBar() : searchBar()),
       floatingActionButton: FloatingActionButton.extended(
         label: Text("Add Medicine"),
         onPressed: () {

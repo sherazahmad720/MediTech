@@ -5,6 +5,8 @@ import 'package:medi_tech/src/controllers/db_controller.dart';
 import 'package:medi_tech/src/pages/medicine_list.dart';
 import 'package:medi_tech/src/widgets/heading_widget.dart';
 
+import 'medical_store_list.dart';
+
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -30,11 +32,16 @@ class _HomePageState extends State<HomePage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  HeadingCard(
-                    color: Color(0xffFF5151),
-                    count: "33",
-                    heading: "Mediacal \nStores",
-                    icon: Icon(Icons.store, color: Colors.white),
+                  InkWell(
+                    onTap: () {
+                      Get.to(MedicalStoreList());
+                    },
+                    child: HeadingCard(
+                      color: Color(0xffFF5151),
+                      count: "33",
+                      heading: "Mediacal \nStores",
+                      icon: Icon(Icons.store, color: Colors.white),
+                    ),
                   ),
                   InkWell(
                     onTap: () {
