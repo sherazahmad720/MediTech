@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:medi_tech/src/controllers/color_controller.dart';
+import 'package:medi_tech/src/controllers/db_controller.dart';
 import 'package:medi_tech/src/pages/home_page.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -12,6 +13,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  final DbController dbController = Get.put(DbController());
   final colors = Get.put(ColorController());
   //NOTE  This function Count The Time Of splash screen
   startTime() async {
@@ -21,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   //NOTE  This function Tell the Rout of next page
   route() {
-    return Get.off(HomePage());
+    dbController.allFunctions().then((value) => Get.off(HomePage()));
   }
 
 //NOTE  This function call and start the Timer

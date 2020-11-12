@@ -65,10 +65,23 @@ class DbController extends GetxController {
 
 ////
   ///
+  ///Variables
+  String totalMedicalstores = "0";
+  String totalMedicines = "0";
+
   ///
   ///LIsts
   List<Medicine> medicineList = [];
   List<MedicalStore> medicalStoreList = [];
+  //
+  // call All functions
+  Future allFunctions() async {
+    getMedicineList();
+    getMedicalStoreList();
+    count();
+    update();
+  }
+
   //add Medicine function
   Future saveMedicine(Medicine data) async {
     var dbCon = await db;
@@ -86,8 +99,9 @@ class DbController extends GetxController {
       for (int i = 0; i < maps.length; i++) {
         medicineList.add(Medicine.fromMap(maps[i]));
       }
-      update();
     }
+    count();
+    update();
   }
 
   // save medical store in data base
@@ -107,7 +121,20 @@ class DbController extends GetxController {
       for (int i = 0; i < maps.length; i++) {
         medicalStoreList.add(MedicalStore.fromMap(maps[i]));
       }
+      count();
       update();
     }
+  }
+
+  //count medical store
+  Future count() async {
+    var dbCon = await db;
+    int countStores = Sqflite.firstIntValue(
+        await dbCon.rawQuery('SELECT COUNT(*) FROM $TABLEMedicalStore'));
+    totalMedicalstores = countStores.toString();
+    int countMedicines = Sqflite.firstIntValue(
+        await dbCon.rawQuery('SELECT COUNT(*) FROM $TABLEMedicine'));
+    totalMedicines = countMedicines.toString();
+    update();
   }
 }

@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:medi_tech/src/controllers/db_controller.dart';
 import 'package:medi_tech/src/pages/medicalstore_list.dart';
 import 'package:medi_tech/src/pages/medicine_list.dart';
-
+import 'package:medi_tech/src/pages/select_medical_store.dart';
 import 'package:medi_tech/src/widgets/heading_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -23,71 +23,79 @@ class _HomePageState extends State<HomePage> {
           IconButton(icon: Icon(Icons.shopping_cart), onPressed: () {})
         ],
       ),
-      body: Container(
-        child: Column(
-          children: [
-            SizedBox(height: 30),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  InkWell(
-                    onTap: () {
-                      Get.to(MedicalStoreList());
-                    },
-                    child: HeadingCard(
-                      color: Color(0xffFF5151),
-                      count: "33",
-                      heading: "Mediacal \nStores",
-                      icon: Icon(Icons.store, color: Colors.white),
+      body: Container(child: GetBuilder<DbController>(
+        builder: (_) {
+          return Column(
+            children: [
+              SizedBox(height: 30),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Get.to(MedicalStoreList());
+                      },
+                      child: HeadingCard(
+                        color: Color(0xffFF5151),
+                        count: _.totalMedicalstores,
+                        heading: "Mediacal \nStores",
+                        icon: Icon(Icons.store, color: Colors.white),
+                      ),
                     ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      // dbController.getMedicineList();
-                      Get.to(MedicineList());
-                    },
-                    child: HeadingCard(
-                        color: Color(0xff2DCE89),
-                        count: "10",
-                        heading: "Medicines\n",
-                        icon: Icon(FontAwesome.ambulance, color: Colors.white)),
-                  )
-                ],
+                    InkWell(
+                      onTap: () {
+                        // dbController.getMedicineList();
+                        Get.to(MedicineList());
+                      },
+                      child: HeadingCard(
+                          color: Color(0xff2DCE89),
+                          count: _.totalMedicines,
+                          heading: "Medicines\n",
+                          icon:
+                              Icon(FontAwesome.ambulance, color: Colors.white)),
+                    )
+                  ],
+                ),
               ),
-            ),
-            SizedBox(
-              height: 7,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  HeadingCard(
-                    color: Color(0xff5D78E3),
-                    count: "45",
-                    heading: "Orders\n",
-                    icon: Icon(
-                      FontAwesome.clipboard,
-                      color: Colors.white,
-                    ),
-                  ),
-                  HeadingCard(
-                      color: Color(0xffFE662D),
-                      count: "",
-                      heading: "Take \n Orders",
+              SizedBox(
+                height: 7,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    HeadingCard(
+                      color: Color(0xff5D78E3),
+                      count: "45",
+                      heading: "Orders\n",
                       icon: Icon(
-                        FontAwesome.cart_plus,
+                        FontAwesome.clipboard,
                         color: Colors.white,
-                      ))
-                ],
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Get.to(SelectMedicalStore());
+                      },
+                      child: HeadingCard(
+                          color: Color(0xffFE662D),
+                          count: "",
+                          heading: "Take \n Orders",
+                          icon: Icon(
+                            FontAwesome.cart_plus,
+                            color: Colors.white,
+                          )),
+                    )
+                  ],
+                ),
               ),
-            ),
-          ],
-        ),
-      ),
+            ],
+          );
+        },
+      )),
     );
   }
 }
