@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medi_tech/src/controllers/db_controller.dart';
-import 'package:medi_tech/src/widgets/add_medicine_dialoge.dart';
-import 'package:medi_tech/src/widgets/medicine_card.dart';
+import 'package:medi_tech/src/widgets/add_medical_store_dialoge.dart';
 
-class MedicineList extends StatefulWidget {
+import 'package:medi_tech/src/widgets/medical_store_card.dart';
+
+class MedicalStoreList extends StatefulWidget {
   @override
-  _MedicineListState createState() => _MedicineListState();
+  _MedicalStoreListState createState() => _MedicalStoreListState();
 }
 
-class _MedicineListState extends State<MedicineList> {
+class _MedicalStoreListState extends State<MedicalStoreList> {
   final DbController dbController = Get.put(DbController());
   String seachText = "";
   TextEditingController editingController = TextEditingController();
@@ -17,7 +18,7 @@ class _MedicineListState extends State<MedicineList> {
   bool _isSearch = false;
 
   Widget appBar() {
-    return Text("Medicines", style: TextStyle(fontSize: 14));
+    return Text("Medical Stores", style: TextStyle(fontSize: 14));
   }
 
   Widget searchBar() {
@@ -54,14 +55,14 @@ class _MedicineListState extends State<MedicineList> {
             })
       ], title: !_isSearch ? appBar() : searchBar()),
       floatingActionButton: FloatingActionButton.extended(
-        label: Text("Add Medicine"),
+        label: Text("Add Store"),
         onPressed: () {
           showDialog(
               barrierDismissible: false,
               context: context,
               builder: (_) {
-                return AddMedicineDialog(
-                  dialoagFor: "medicine",
+                return AddMedicalStoreDialog(
+                  dialoagFor: "Medical Store",
                 );
               });
         },
@@ -73,9 +74,9 @@ class _MedicineListState extends State<MedicineList> {
             Expanded(
                 child: ListView(
               children: [
-                for (var data in _.medicineList)
+                for (var data in _.medicalStoreList)
                   data.name.contains(seachText)
-                      ? medicineCard(data.type, data.name, data.price)
+                      ? medicalStoreCard(data.name, data.address, data.status)
                       : SizedBox()
               ],
             ))

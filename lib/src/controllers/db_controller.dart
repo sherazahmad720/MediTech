@@ -6,6 +6,8 @@ import 'dart:io' as io;
 import 'dart:async';
 import 'package:path/path.dart';
 
+import '../../Models/MedicalStoreModel.dart';
+
 class DbController extends GetxController {
 //Data base name variable
   static Database _db;
@@ -66,6 +68,7 @@ class DbController extends GetxController {
   ///
   ///LIsts
   List<Medicine> medicineList = [];
+  List<MedicalStore> medicalStoreList = [];
   //add Medicine function
   Future saveMedicine(Medicine data) async {
     var dbCon = await db;
@@ -74,6 +77,7 @@ class DbController extends GetxController {
     getMedicineList();
   }
 
+//Get medicine from data base
   Future getMedicineList() async {
     var dbCon = await db;
     List<Map> maps = await dbCon.rawQuery('Select * from $TABLEMedicine');
@@ -81,6 +85,27 @@ class DbController extends GetxController {
     if (maps.length > 0) {
       for (int i = 0; i < maps.length; i++) {
         medicineList.add(Medicine.fromMap(maps[i]));
+      }
+      update();
+    }
+  }
+
+  // save medical store in data base
+  Future saveMedicalStore(MedicalStore data) async {
+    var dbCon = await db;
+    await dbCon.insert(TABLEMedicalStore, data.toMap());
+    update();
+    getMedicalStoreList();
+  }
+
+//Get Medical Stores List from data base
+  Future getMedicalStoreList() async {
+    var dbCon = await db;
+    List<Map> maps = await dbCon.rawQuery('Select * from $TABLEMedicalStore');
+    medicalStoreList.clear();
+    if (maps.length > 0) {
+      for (int i = 0; i < maps.length; i++) {
+        medicalStoreList.add(MedicalStore.fromMap(maps[i]));
       }
       update();
     }

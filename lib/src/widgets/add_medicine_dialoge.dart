@@ -1,20 +1,19 @@
-import 'dart:io';
 import 'package:get/get.dart';
 import 'package:medi_tech/Models/MedicineModel.dart';
 import 'package:medi_tech/src/controllers/db_controller.dart';
-import 'package:path/path.dart' as path;
+
 // import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-class MyDialog extends StatefulWidget {
+class AddMedicineDialog extends StatefulWidget {
   final dialoagFor;
 
-  MyDialog({this.dialoagFor});
+  AddMedicineDialog({this.dialoagFor});
   @override
-  _MyDialogState createState() => _MyDialogState();
+  _AddMedicineDialogState createState() => _AddMedicineDialogState();
 }
 
-class _MyDialogState extends State<MyDialog> {
+class _AddMedicineDialogState extends State<AddMedicineDialog> {
   final DbController dbController = Get.put(DbController());
   final nameController = TextEditingController();
   final priceController = TextEditingController();
