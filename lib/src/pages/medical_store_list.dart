@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:medi_tech/src/controllers/db_controller.dart';
-import 'package:medi_tech/src/widgets/dialoge.dart';
+import 'package:medi_tech/src/widgets/add_medical_store_dialoge.dart';
 
 class MedicalStoreList extends StatefulWidget {
   @override
@@ -62,7 +62,7 @@ class _MedicalStoreListState extends State<MedicalStoreList> {
               barrierDismissible: false,
               context: context,
               builder: (_) {
-                return MyDialog(
+                return AddMedicalStoreDialog(
                   dialoagFor: "Medical Stores",
                 );
               });
