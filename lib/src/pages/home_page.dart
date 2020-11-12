@@ -6,6 +6,8 @@ import 'package:medi_tech/src/pages/medicalstore_list.dart';
 import 'package:medi_tech/src/pages/medicine_list.dart';
 import 'package:medi_tech/src/widgets/heading_widget.dart';
 
+import 'medical_store_list.dart';
+
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
