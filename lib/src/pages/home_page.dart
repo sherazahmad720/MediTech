@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:medi_tech/src/controllers/db_controller.dart';
 import 'package:medi_tech/src/pages/medicalstore_list.dart';
 import 'package:medi_tech/src/pages/medicine_list.dart';
+import 'package:medi_tech/src/pages/orders_list.dart';
 import 'package:medi_tech/src/pages/select_medical_store.dart';
 import 'package:medi_tech/src/widgets/heading_widget.dart';
 
@@ -67,13 +68,18 @@ class _HomePageState extends State<HomePage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    HeadingCard(
-                      color: Color(0xff5D78E3),
-                      count: "45",
-                      heading: "Orders\n",
-                      icon: Icon(
-                        FontAwesome.clipboard,
-                        color: Colors.white,
+                    InkWell(
+                      onTap: () {
+                        Get.to(OrdersList());
+                      },
+                      child: HeadingCard(
+                        color: Color(0xff5D78E3),
+                        count: _.totalOrders,
+                        heading: "Orders\n",
+                        icon: Icon(
+                          FontAwesome.clipboard,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                     InkWell(

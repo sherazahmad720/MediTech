@@ -59,9 +59,9 @@ class DbController extends GetxController {
     await db.execute(
         "CREATE TABLE $TABLEMedicalStore($StoreId INTEGER PRIMARY KEY AUTOINCREMENT,$StoreName TEXT,$StoreAddress TEXT,$StoreStatus Text)");
     await db.execute(
-        "CREATE TABLE $TABLEOrderList($OrderId INTEGER PRIMARY KEY AUTOINCREMENT,$StoreName TEXT,$Date Text)");
+        "CREATE TABLE $TABLEOrderList($ListId INTEGER PRIMARY KEY AUTOINCREMENT,$StoreName TEXT,$Date Text)");
     await db.execute(
-        "CREATE TABLE $TABLEOrders($ListId INTEGER PRIMARY KEY AUTOINCREMENT,$StoreName TEXT,$MedName TEXT,$Quantity TEXT,$SPrice Text,$Date Text)");
+        "CREATE TABLE $TABLEOrders($OrderId INTEGER PRIMARY KEY AUTOINCREMENT,$StoreName TEXT,$MedName TEXT,$Quantity TEXT,$SPrice Text,$Date Text)");
   }
 
 ////
@@ -69,6 +69,7 @@ class DbController extends GetxController {
   ///Variables
   String totalMedicalstores = "0";
   String totalMedicines = "0";
+  String totalOrders = "0";
 
   ///
   ///LIsts
@@ -76,11 +77,14 @@ class DbController extends GetxController {
   List<MedicalStore> medicalStoreList = [];
   List<Orders> order = [];
   List<Orders> savedOrder = [];
+  List<OrdersList> orderList = [];
   //
   // call All functions
   Future allFunctions() async {
     getMedicineList();
     getMedicalStoreList();
+    getOrder();
+    getOrderList();
     count();
     update();
   }
@@ -153,6 +157,46 @@ class DbController extends GetxController {
     update();
   }
 
+//sorted order
+  Future getSortedOrder(String store, String date) async {
+    var dbCon = await db;
+    List<Map> maps = await dbCon
+        .rawQuery('Select * from $TABLEOrders Where $StoreName=? ', ['$store']);
+    List<Orders> sortedOrder = [];
+    if (maps.length > 0) {
+      for (int i = 0; i < maps.length; i++) {
+        if (maps[i]['Date'] == date) {
+          sortedOrder.add(Orders.fromMap(maps[i]));
+        }
+      }
+    }
+    return sortedOrder;
+  }
+
+//add orderlists
+  Future saveOrderList(OrdersList data) async {
+    var dbCon = await db;
+    await dbCon.insert(TABLEOrderList, data.toMap());
+    update();
+    count();
+    getOrderList();
+  }
+
+//Get Orders Lists
+  Future getOrderList() async {
+    var dbCon = await db;
+    List<Map> maps = await dbCon
+        .rawQuery('Select * from $TABLEOrderList ORDER BY date($Date) DESC');
+    orderList.clear();
+    if (maps.length > 0) {
+      for (int i = 0; i < maps.length; i++) {
+        orderList.add(OrdersList.fromMap(maps[i]));
+      }
+    }
+    count();
+    update();
+  }
+
   //count medical store
   Future count() async {
     var dbCon = await db;
@@ -162,6 +206,9 @@ class DbController extends GetxController {
     int countMedicines = Sqflite.firstIntValue(
         await dbCon.rawQuery('SELECT COUNT(*) FROM $TABLEMedicine'));
     totalMedicines = countMedicines.toString();
+    int countorders = Sqflite.firstIntValue(
+        await dbCon.rawQuery('SELECT COUNT(*) FROM $TABLEOrderList'));
+    totalOrders = countorders.toString();
     update();
   }
 }

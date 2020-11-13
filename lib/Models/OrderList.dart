@@ -1,12 +1,12 @@
 class OrdersList {
-  int orderid;
+  int listId;
   String date;
   String storeName;
 
-  OrdersList({this.storeName, this.date, this.orderid});
+  OrdersList({this.storeName, this.date, this.listId});
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
-      'OrderId': orderid,
+      'ListId': listId,
       'Date': date,
       'StoreName': storeName,
     };
@@ -14,7 +14,7 @@ class OrdersList {
   }
 
   OrdersList.fromMap(Map<String, dynamic> map) {
-    orderid = map['OrderId'];
+    listId = map['ListId'];
     date = map['Date'];
     storeName = map['StoreName'];
   }
