@@ -12,6 +12,7 @@ class SelectMedicalStore extends StatefulWidget {
 class _SelectMedicalStoreState extends State<SelectMedicalStore> {
   TextEditingController searchController = TextEditingController();
   String searchText = "";
+  String selectedDate = "12-9-2020";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,6 +42,7 @@ class _SelectMedicalStoreState extends State<SelectMedicalStore> {
                     icon: Icon(Icons.highlight_remove),
                     onPressed: () {
                       setState(() {
+                        searchText = "";
                         searchController.text = "";
                       });
                     },
@@ -67,6 +69,7 @@ class _SelectMedicalStoreState extends State<SelectMedicalStore> {
                             onTap: () {
                               Get.to(SelectMedicine(
                                 storeName: _.medicalStoreList[index].name,
+                                date: selectedDate,
                               ));
                             },
                             child: medicalStoreCard(
@@ -78,19 +81,6 @@ class _SelectMedicalStoreState extends State<SelectMedicalStore> {
                           return SizedBox();
                         }
                       }),
-                  //     child: ListView.builder(
-                  //       itemBuilder: (_){
-                  //         return
-                  //       },
-                  //   children: [
-                  //     for (var data in _.medicalStoreList)
-                  //       data.name.contains(searchText)
-                  //           ? medicalStoreCard(
-
-                  //               data.name, data.address, data.status)
-                  //           : SizedBox()
-                  //   ],
-                  // )
                 );
               })
             ],

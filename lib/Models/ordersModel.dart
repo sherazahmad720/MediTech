@@ -1,32 +1,36 @@
 class Orders {
-  int orderid;
+  int listId;
   String medicalStore;
-  String dateandTime;
+  String date;
+  String price;
   String totalQty;
-  String mId;
+  String medName;
 
   Orders(
-      {this.dateandTime,
-      this.mId,
+      {this.date,
+      this.medName,
+      this.price,
       this.medicalStore,
-      this.orderid,
+      this.listId,
       this.totalQty});
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
-      'id': orderid,
-      'medicalStore': medicalStore,
-      'dateandTime': dateandTime,
-      'totalQty': totalQty,
-      'mId': mId,
+      'ListId': listId,
+      'StoreName': medicalStore,
+      'Date': date,
+      'SPrice': price,
+      'Quantity': totalQty,
+      'medName': medName,
     };
     return map;
   }
 
   Orders.fromMap(Map<String, dynamic> map) {
-    orderid = map['id'];
-    medicalStore = map['medicalStore'];
-    dateandTime = map['dateandTime'];
-    totalQty = map['totalQty'];
-    mId = map['mId'];
+    listId = map['ListId'];
+    medicalStore = map['StoreName'];
+    date = map['Date'];
+    price = map['SPrice'];
+    totalQty = map['Quantity'];
+    medName = map['medName'];
   }
 }

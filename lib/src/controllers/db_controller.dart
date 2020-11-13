@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 import 'package:medi_tech/Models/MedicineModel.dart';
+import 'package:medi_tech/Models/OrderList.dart';
+import 'package:medi_tech/Models/ordersModel.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'dart:io' as io;
@@ -35,7 +37,6 @@ class DbController extends GetxController {
   static const String ListId = 'ListId';
   static const String Quantity = 'Quantity';
   static const String SPrice = 'SPrice';
-
 //Functions
   Future<Database> get db async {
     if (_db != null) {
@@ -58,9 +59,9 @@ class DbController extends GetxController {
     await db.execute(
         "CREATE TABLE $TABLEMedicalStore($StoreId INTEGER PRIMARY KEY AUTOINCREMENT,$StoreName TEXT,$StoreAddress TEXT,$StoreStatus Text)");
     await db.execute(
-        "CREATE TABLE $TABLEOrders($OrderId INTEGER PRIMARY KEY AUTOINCREMENT,$StoreId TEXT,$Date Text)");
+        "CREATE TABLE $TABLEOrderList($OrderId INTEGER PRIMARY KEY AUTOINCREMENT,$StoreName TEXT,$Date Text)");
     await db.execute(
-        "CREATE TABLE $TABLEOrderList($ListId INTEGER PRIMARY KEY AUTOINCREMENT,$OrderId TEXT,$MedId TEXT,$Quantity TEXT,$SPrice Text)");
+        "CREATE TABLE $TABLEOrders($ListId INTEGER PRIMARY KEY AUTOINCREMENT,$StoreName TEXT,$MedName TEXT,$Quantity TEXT,$SPrice Text,$Date Text)");
   }
 
 ////
@@ -73,6 +74,8 @@ class DbController extends GetxController {
   ///LIsts
   List<Medicine> medicineList = [];
   List<MedicalStore> medicalStoreList = [];
+  List<Orders> order = [];
+  List<Orders> savedOrder = [];
   //
   // call All functions
   Future allFunctions() async {
@@ -89,6 +92,8 @@ class DbController extends GetxController {
     update();
     getMedicineList();
   }
+
+// save Order
 
 //Get medicine from data base
   Future getMedicineList() async {
@@ -124,6 +129,28 @@ class DbController extends GetxController {
       count();
       update();
     }
+  }
+
+//add Medicine function
+  Future saveOrder(Orders data) async {
+    var dbCon = await db;
+    await dbCon.insert(TABLEOrders, data.toMap());
+    update();
+    getOrder();
+  }
+
+//Get Orders
+  Future getOrder() async {
+    var dbCon = await db;
+    List<Map> maps = await dbCon.rawQuery('Select * from $TABLEOrders');
+    savedOrder.clear();
+    if (maps.length > 0) {
+      for (int i = 0; i < maps.length; i++) {
+        savedOrder.add(Orders.fromMap(maps[i]));
+      }
+    }
+    count();
+    update();
   }
 
   //count medical store

@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medi_tech/src/controllers/db_controller.dart';
 import 'package:medi_tech/src/pages/order_page.dart';
-import 'package:medi_tech/src/widgets/medical_store_card.dart';
+
 import 'package:medi_tech/src/widgets/medicine_card.dart';
+import 'package:medi_tech/src/widgets/select_quantity_dialoge.dart';
 
 class SelectMedicine extends StatefulWidget {
   final storeName;
-  SelectMedicine({this.storeName});
+  final date;
+
+  SelectMedicine({this.storeName, this.date});
   @override
   _SelectMedicineState createState() => _SelectMedicineState();
 }
@@ -51,6 +54,7 @@ class _SelectMedicineState extends State<SelectMedicine> {
                     icon: Icon(Icons.highlight_remove),
                     onPressed: () {
                       setState(() {
+                        searchText = "";
                         searchController.text = "";
                       });
                     },
@@ -72,10 +76,26 @@ class _SelectMedicineState extends State<SelectMedicine> {
                       itemCount: _.medicineList.length,
                       itemBuilder: (context, index) {
                         if (_.medicineList[index].name.contains(searchText)) {
-                          return medicineCard(
-                              _.medicineList[index].type,
-                              _.medicineList[index].name,
-                              _.medicineList[index].price);
+                          return InkWell(
+                            onTap: () {
+                              showDialog(
+                                  barrierDismissible: false,
+                                  context: context,
+                                  builder: (context) {
+                                    return AddQuantityDialog(
+                                        date: widget.date,
+                                        storeName: widget.storeName,
+                                        medicineName:
+                                            _.medicineList[index].name,
+                                        medicinePrice:
+                                            _.medicineList[index].price);
+                                  });
+                            },
+                            child: medicineCard(
+                                _.medicineList[index].type,
+                                _.medicineList[index].name,
+                                _.medicineList[index].price),
+                          );
                         } else {
                           return SizedBox();
                         }
