@@ -2,23 +2,41 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medi_tech/Models/ordersModel.dart';
 import 'package:medi_tech/src/controllers/db_controller.dart';
+import 'package:medi_tech/src/controllers/share_controler.dart';
 
+// ignore: must_be_immutable
 class OrderDetails extends StatefulWidget {
   final List<Orders> orders;
-  OrderDetails(this.orders);
+  String address;
+  OrderDetails(this.orders, this.address);
   @override
   _OrderDetailsState createState() => _OrderDetailsState();
 }
 
 class _OrderDetailsState extends State<OrderDetails> {
+  String orderDetails = "";
   @override
   Widget build(BuildContext context) {
     return GetBuilder<DbController>(
       builder: (_) {
         return Scaffold(
           appBar: AppBar(
-            title: Text("Detailed Order"),
+            title: Text("Order Details"),
             titleSpacing: 4,
+            actions: [
+              IconButton(
+                  icon: Icon(Icons.screen_share_outlined),
+                  onPressed: () {
+                    orderDetails = "${widget.orders[0].date}\n";
+                    orderDetails =
+                        "$orderDetails  ${widget.orders[0].medicalStore}  (${widget.address})\n";
+                    for (var dataText in widget.orders)
+                      orderDetails =
+                          "$orderDetails  ${dataText.totalQty} x ${dataText.medName} - ${dataText.price} \n";
+
+                    ShareController().shareApp(orderDetails);
+                  })
+            ],
           ),
           body: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -81,14 +99,6 @@ class _OrderDetailsState extends State<OrderDetails> {
                                   color: Colors.white),
                             ),
                           ),
-                          // Expanded(
-                          //   child: Text(
-                          //     "Action",
-                          //     style: TextStyle(
-                          //         fontWeight: FontWeight.bold,
-                          //         color: Colors.white),
-                          //   ),
-                          // )
                         ],
                       ),
                     ),

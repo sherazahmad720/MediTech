@@ -59,7 +59,7 @@ class DbController extends GetxController {
     await db.execute(
         "CREATE TABLE $TABLEMedicalStore($StoreId INTEGER PRIMARY KEY AUTOINCREMENT,$StoreName TEXT,$StoreAddress TEXT,$StoreStatus Text)");
     await db.execute(
-        "CREATE TABLE $TABLEOrderList($ListId INTEGER PRIMARY KEY AUTOINCREMENT,$StoreName TEXT,$Date Text)");
+        "CREATE TABLE $TABLEOrderList($ListId INTEGER PRIMARY KEY AUTOINCREMENT,$StoreName TEXT,$StoreAddress TEXT,$Date Text)");
     await db.execute(
         "CREATE TABLE $TABLEOrders($OrderId INTEGER PRIMARY KEY AUTOINCREMENT,$StoreName TEXT,$MedName TEXT,$Quantity TEXT,$SPrice Text,$Date Text)");
   }
@@ -78,6 +78,7 @@ class DbController extends GetxController {
   List<Orders> order = [];
   List<Orders> savedOrder = [];
   List<OrdersList> orderList = [];
+  String address = "";
   //
   // call All functions
   Future allFunctions() async {

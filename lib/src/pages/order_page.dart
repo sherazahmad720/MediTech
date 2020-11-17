@@ -40,6 +40,7 @@ class _OrderPageState extends State<OrderPage> {
                                 OrdersList data2 = OrdersList(
                                   date: _.order[0].date,
                                   storeName: _.order[0].medicalStore,
+                                  storeAddress: _.address,
                                 );
                                 dbController.saveOrderList(data2);
                                 for (var i = 0; i <= _.order.length; i++) {
@@ -62,7 +63,7 @@ class _OrderPageState extends State<OrderPage> {
                           children: [
                             Expanded(
                               child: Text(
-                                "Store: ${_.order[0].medicalStore}",
+                                "Store: ${_.order[0].medicalStore} (${_.address})",
                                 style: TextStyle(
                                     fontSize: 18, fontWeight: FontWeight.bold),
                               ),

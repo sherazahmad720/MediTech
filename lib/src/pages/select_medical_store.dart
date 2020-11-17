@@ -76,10 +76,13 @@ class _SelectMedicalStoreState extends State<SelectMedicalStore> {
                             .contains(searchText)) {
                           return InkWell(
                             onTap: () {
+                              _.address = _.medicalStoreList[index].address;
                               _.order.clear();
+
                               Get.to(SelectMedicine(
                                 storeName: _.medicalStoreList[index].name,
                                 date: selectedDate,
+                                address: _.medicalStoreList[index].address,
                               ));
                             },
                             child: medicalStoreCard(

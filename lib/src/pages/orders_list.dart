@@ -62,12 +62,15 @@ class _OrdersListState extends State<OrdersList> {
                             data.date.contains(seachText)
                         ? InkWell(
                             onTap: () {
-                              _
-                                  .getSortedOrder(data.storeName, data.date)
-                                  .then((value) => Get.to(OrderDetails(value)));
+                              _.getSortedOrder(data.storeName, data.date).then(
+                                  (value) => Get.to(
+                                      OrderDetails(value, data.storeAddress)));
                             },
-                            child:
-                                medicalStoreCard(data.storeName, data.date, ""))
+                            child: medicalStoreCard(
+                              data.storeName,
+                              data.date,
+                              "${data.storeAddress}",
+                            ))
                         : SizedBox()
                 ],
               ))

@@ -9,8 +9,9 @@ import 'package:medi_tech/src/widgets/select_quantity_dialoge.dart';
 class SelectMedicine extends StatefulWidget {
   final storeName;
   final date;
+  final address;
 
-  SelectMedicine({this.storeName, this.date});
+  SelectMedicine({this.storeName, this.date, this.address});
   @override
   _SelectMedicineState createState() => _SelectMedicineState();
 }
