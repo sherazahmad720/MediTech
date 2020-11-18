@@ -33,10 +33,12 @@ class DbController extends GetxController {
   // order field variables
   static const String OrderId = 'OrderId';
   static const String Date = 'Date';
-  // order List field variables
+  // order  field variables
   static const String ListId = 'ListId';
   static const String Quantity = 'Quantity';
   static const String SPrice = 'SPrice';
+  static const String Discount = 'discount';
+  static const String Bonus = 'bonus';
 //Functions
   Future<Database> get db async {
     if (_db != null) {
@@ -61,7 +63,7 @@ class DbController extends GetxController {
     await db.execute(
         "CREATE TABLE $TABLEOrderList($ListId INTEGER PRIMARY KEY AUTOINCREMENT,$StoreName TEXT,$StoreAddress TEXT,$Date Text)");
     await db.execute(
-        "CREATE TABLE $TABLEOrders($OrderId INTEGER PRIMARY KEY AUTOINCREMENT,$StoreName TEXT,$MedName TEXT,$Quantity TEXT,$SPrice Text,$Date Text)");
+        "CREATE TABLE $TABLEOrders($OrderId INTEGER PRIMARY KEY AUTOINCREMENT,$StoreName TEXT,$MedName TEXT,$Quantity TEXT,$SPrice Text,$Date Text,$Discount Text,$Bonus Text)");
   }
 
 ////
@@ -98,8 +100,6 @@ class DbController extends GetxController {
     getMedicineList();
   }
 
-// save Order
-
 //Get medicine from data base
   Future getMedicineList() async {
     var dbCon = await db;
@@ -112,6 +112,14 @@ class DbController extends GetxController {
     }
     count();
     update();
+  }
+
+  //Delete Medicine
+  Future deleteMedicine(String id) async {
+    var dbCon = await db;
+    await dbCon
+        .rawQuery('DELETE FROM $TABLEMedicine WHERE $MedId = ?', ['$id']);
+    getMedicineList();
   }
 
   // save medical store in data base
@@ -136,7 +144,15 @@ class DbController extends GetxController {
     }
   }
 
-//add Medicine function
+  //Delete Medical Store
+  Future deleteMedicalStore(String id) async {
+    var dbCon = await db;
+    await dbCon
+        .rawQuery('DELETE FROM $TABLEMedicalStore WHERE $StoreId = ?', ['$id']);
+    getMedicalStoreList();
+  }
+
+//Save Orders
   Future saveOrder(Orders data) async {
     var dbCon = await db;
     await dbCon.insert(TABLEOrders, data.toMap());
@@ -158,7 +174,7 @@ class DbController extends GetxController {
     update();
   }
 
-//sorted order
+//Get sorted order
   Future getSortedOrder(String store, String date) async {
     var dbCon = await db;
     List<Map> maps = await dbCon
@@ -172,6 +188,15 @@ class DbController extends GetxController {
       }
     }
     return sortedOrder;
+  }
+
+  //Delete Orders
+  Future deleteOrders(String id) async {
+    var dbCon = await db;
+    await dbCon
+        .rawQuery('DELETE FROM $TABLEOrders WHERE $OrderId = ?', ['$id']);
+
+    getOrder();
   }
 
 //add orderlists
@@ -196,6 +221,14 @@ class DbController extends GetxController {
     }
     count();
     update();
+  }
+//Delete Order List
+
+  Future deleteOrderList(String id) async {
+    var dbCon = await db;
+    await dbCon
+        .rawQuery('DELETE FROM $TABLEOrderList WHERE $ListId = ?', ['$id']);
+    getOrderList();
   }
 
   //count medical store

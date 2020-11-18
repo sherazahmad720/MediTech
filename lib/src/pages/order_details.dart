@@ -1,3 +1,5 @@
+// import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medi_tech/Models/ordersModel.dart';
@@ -14,7 +16,19 @@ class OrderDetails extends StatefulWidget {
 }
 
 class _OrderDetailsState extends State<OrderDetails> {
+  int totalAmount = 0;
   String orderDetails = "";
+  Widget totalText() {
+    totalAmount = 0;
+    for (int i = 0; i < widget.orders.length; i++) {
+      totalAmount = totalAmount +
+          ((int.parse(widget.orders[i].price) *
+              int.parse(widget.orders[i].totalQty)));
+    }
+    return Text("Total Amount is ${totalAmount.toString()}",
+        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold));
+  }
+
   @override
   Widget build(BuildContext context) {
     return GetBuilder<DbController>(
@@ -27,12 +41,12 @@ class _OrderDetailsState extends State<OrderDetails> {
               IconButton(
                   icon: Icon(Icons.screen_share_outlined),
                   onPressed: () {
-                    orderDetails = "${widget.orders[0].date}\n";
+                    // orderDetails = "${widget.orders[0].date}\n";
                     orderDetails =
                         "$orderDetails  ${widget.orders[0].medicalStore}  (${widget.address})\n";
                     for (var dataText in widget.orders)
                       orderDetails =
-                          "$orderDetails  ${dataText.totalQty} x ${dataText.medName} - ${dataText.price} \n";
+                          "$orderDetails  ${dataText.totalQty}+${dataText.bonus} x ${dataText.medName} - ${dataText.price}/${dataText.discount} \n";
 
                     ShareController().shareApp(orderDetails);
                   })
@@ -99,32 +113,54 @@ class _OrderDetailsState extends State<OrderDetails> {
                                   color: Colors.white),
                             ),
                           ),
+                          Expanded(
+                            child: Text(
+                              "Discount",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            ),
+                          ),
                         ],
                       ),
                     ),
                   ),
                   for (var data in widget.orders)
-                    Card(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8.0, vertical: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: Text("${data.totalQty}"),
-                            ),
-                            Expanded(
-                              flex: 2,
-                              child: Text("${data.medName}"),
-                            ),
-                            Expanded(
-                              child: Text("${data.price}"),
-                            ),
-                          ],
+                    GestureDetector(
+                      // onLongPress: () {
+                      //   setState(() {
+                      //     _.deleteOrders(data.orderId.toString());
+                      //     widget.orders.removeWhere(
+                      //         (element) => element.orderId == data.orderId);
+                      //   });
+                      // },
+                      child: Card(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8.0, vertical: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: Text("${data.totalQty}+${data.bonus}"),
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: Text("${data.medName}"),
+                              ),
+                              Expanded(
+                                child: Text("${data.price}"),
+                              ),
+                              Expanded(
+                                child: Text("${data.discount}"),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    )
+                    ),
+                  SizedBox(height: 20),
+                  totalText()
                 ],
               ),
             ),

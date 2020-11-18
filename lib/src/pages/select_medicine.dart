@@ -76,9 +76,12 @@ class _SelectMedicineState extends State<SelectMedicine> {
                   child: ListView.builder(
                       itemCount: _.medicineList.length,
                       itemBuilder: (context, index) {
-                        if (_.medicineList[index].name.contains(searchText)) {
+                        if (_.medicineList[index].name
+                            .toLowerCase()
+                            .contains(searchText.toLowerCase())) {
                           return InkWell(
                             onTap: () {
+                              searchController.text = "";
                               showDialog(
                                   barrierDismissible: false,
                                   context: context,

@@ -58,9 +58,54 @@ class _OrdersListState extends State<OrdersList> {
                   child: ListView(
                 children: [
                   for (var data in _.orderList)
-                    data.storeName.contains(seachText) ||
+                    data.storeName
+                                .toLowerCase()
+                                .contains(seachText.toLowerCase()) ||
                             data.date.contains(seachText)
-                        ? InkWell(
+                        ? GestureDetector(
+                            onLongPress: () {
+                              showDialog(
+                                  barrierDismissible: false,
+                                  context: context,
+                                  builder: (_) {
+                                    return AlertDialog(
+                                      content: Container(
+                                        height: 100,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                                "Are you want to Delete ${data.storeName} Orders on ${data.date}"),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                RaisedButton(
+                                                  onPressed: () {
+                                                    Get.back();
+                                                  },
+                                                  child: Text("Cancel"),
+                                                ),
+                                                RaisedButton(
+                                                  onPressed: () {
+                                                    dbController
+                                                        .deleteOrderList(data
+                                                            .listId
+                                                            .toString());
+                                                    Get.back();
+                                                  },
+                                                  child: Text("Yes"),
+                                                )
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  });
+                            },
                             onTap: () {
                               _.getSortedOrder(data.storeName, data.date).then(
                                   (value) => Get.to(

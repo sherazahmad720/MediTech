@@ -52,8 +52,7 @@ class _MedicineListState extends State<MedicineList> {
                 }
               });
             })
-      ],
-       title: !_isSearch ? appBar() : searchBar()),
+      ], title: !_isSearch ? appBar() : searchBar()),
       floatingActionButton: FloatingActionButton.extended(
         label: Text("Add Medicine"),
         onPressed: () {
@@ -75,8 +74,49 @@ class _MedicineListState extends State<MedicineList> {
                 child: ListView(
               children: [
                 for (var data in _.medicineList)
-                  data.name.contains(seachText)
-                      ? medicineCard(data.type, data.name, data.price)
+                  data.name.toLowerCase().contains(seachText.toLowerCase())
+                      ? GestureDetector(
+                          onLongPress: () {
+                            showDialog(
+                                barrierDismissible: false,
+                                context: context,
+                                builder: (_) {
+                                  return AlertDialog(
+                                    content: Container(
+                                      height: 100,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                              "Are you want to Delete ${data.name}"),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              RaisedButton(
+                                                onPressed: () {
+                                                  Get.back();
+                                                },
+                                                child: Text("Cancel"),
+                                              ),
+                                              RaisedButton(
+                                                onPressed: () {
+                                                  dbController.deleteMedicine(
+                                                      data.medId.toString());
+                                                  Get.back();
+                                                },
+                                                child: Text("Yes"),
+                                              )
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                });
+                          },
+                          child: medicineCard(data.type, data.name, data.price))
                       : SizedBox()
               ],
             ))

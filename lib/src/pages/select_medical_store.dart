@@ -72,8 +72,8 @@ class _SelectMedicalStoreState extends State<SelectMedicalStore> {
                   child: ListView.builder(
                       itemCount: _.medicalStoreList.length,
                       itemBuilder: (context, index) {
-                        if (_.medicalStoreList[index].name
-                            .contains(searchText)) {
+                        if ((_.medicalStoreList[index].name).toLowerCase()
+                            .contains(searchText.toLowerCase())) {
                           return InkWell(
                             onTap: () {
                               _.address = _.medicalStoreList[index].address;

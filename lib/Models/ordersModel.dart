@@ -5,14 +5,17 @@ class Orders {
   String price;
   String totalQty;
   String medName;
-
+  String bonus;
+  String discount;
   Orders(
       {this.date,
       this.medName,
       this.price,
       this.medicalStore,
       this.orderId,
-      this.totalQty});
+      this.totalQty,
+      this.bonus,
+      this.discount});
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
       'OrderId': orderId,
@@ -21,6 +24,8 @@ class Orders {
       'SPrice': price,
       'Quantity': totalQty,
       'medName': medName,
+      'bonus': bonus,
+      'discount': discount
     };
     return map;
   }
@@ -32,5 +37,7 @@ class Orders {
     price = map['SPrice'];
     totalQty = map['Quantity'];
     medName = map['medName'];
+    bonus = map['bonus'];
+    discount = map['discount'];
   }
 }

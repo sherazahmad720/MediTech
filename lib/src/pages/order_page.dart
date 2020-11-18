@@ -11,6 +11,19 @@ class OrderPage extends StatefulWidget {
 
 class _OrderPageState extends State<OrderPage> {
   DbController dbController = Get.put(DbController());
+  int totalAmount = 0;
+
+  Widget totalText() {
+    totalAmount = 0;
+    for (int i = 0; i < dbController.order.length; i++) {
+      totalAmount = totalAmount +
+          ((int.parse(dbController.order[i].price) *
+              int.parse(dbController.order[i].totalQty)));
+    }
+    return Text("Total Amount is ${totalAmount.toString()}",
+        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold));
+  }
+
   @override
   Widget build(BuildContext context) {
     return GetBuilder<DbController>(builder: (_) {
@@ -45,11 +58,14 @@ class _OrderPageState extends State<OrderPage> {
                                 dbController.saveOrderList(data2);
                                 for (var i = 0; i <= _.order.length; i++) {
                                   Orders data = Orders(
-                                      date: _.order[0].date,
-                                      medicalStore: _.order[0].medicalStore,
-                                      medName: _.order[i].medName,
-                                      price: _.order[i].price,
-                                      totalQty: _.order[i].totalQty);
+                                    date: _.order[0].date,
+                                    medicalStore: _.order[0].medicalStore,
+                                    medName: _.order[i].medName,
+                                    price: _.order[i].price,
+                                    totalQty: _.order[i].totalQty,
+                                    bonus: _.order[i].bonus,
+                                    discount: _.order[i].discount,
+                                  );
                                   dbController.saveOrder(data);
                                 }
                               }
@@ -72,6 +88,8 @@ class _OrderPageState extends State<OrderPage> {
                           ],
                         ),
                       ),
+                      SizedBox(height: 20),
+                      totalText(),
                       SizedBox(
                         height: 20,
                       ),
@@ -110,6 +128,15 @@ class _OrderPageState extends State<OrderPage> {
                               ),
                               Expanded(
                                 child: Text(
+                                  "Discount",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12,
+                                      color: Colors.white),
+                                ),
+                              ),
+                              Expanded(
+                                child: Text(
                                   "Action",
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
@@ -129,7 +156,7 @@ class _OrderPageState extends State<OrderPage> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Expanded(
-                                  child: Text("${data.totalQty}"),
+                                  child: Text("${data.totalQty}+${data.bonus}"),
                                 ),
                                 Expanded(
                                   flex: 2,
@@ -137,6 +164,9 @@ class _OrderPageState extends State<OrderPage> {
                                 ),
                                 Expanded(
                                   child: Text("${data.price}"),
+                                ),
+                                Expanded(
+                                  child: Text("${data.discount}"),
                                 ),
                                 Expanded(
                                   child: IconButton(
@@ -152,7 +182,7 @@ class _OrderPageState extends State<OrderPage> {
                               ],
                             ),
                           ),
-                        )
+                        ),
                     ],
                   ),
           ),

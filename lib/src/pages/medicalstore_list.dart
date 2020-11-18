@@ -75,8 +75,51 @@ class _MedicalStoreListState extends State<MedicalStoreList> {
                 child: ListView(
               children: [
                 for (var data in _.medicalStoreList)
-                  data.name.contains(seachText)
-                      ? medicalStoreCard(data.name, data.address, data.status)
+                  data.name.toLowerCase().contains(seachText.toLowerCase())
+                      ? GestureDetector(
+                          onLongPress: () {
+                            showDialog(
+                                barrierDismissible: false,
+                                context: context,
+                                builder: (_) {
+                                  return AlertDialog(
+                                    content: Container(
+                                      height: 100,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                              "Are you want to Delete ${data.name}"),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              RaisedButton(
+                                                onPressed: () {
+                                                  Get.back();
+                                                },
+                                                child: Text("Cancel"),
+                                              ),
+                                              RaisedButton(
+                                                onPressed: () {
+                                                  dbController
+                                                      .deleteMedicalStore(
+                                                          data.id.toString());
+                                                  Get.back();
+                                                },
+                                                child: Text("Yes"),
+                                              )
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                });
+                          },
+                          child: medicalStoreCard(
+                              data.name, data.address, data.status))
                       : SizedBox()
               ],
             ))

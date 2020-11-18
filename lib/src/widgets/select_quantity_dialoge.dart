@@ -21,6 +21,8 @@ class _AddQuantityDialogState extends State<AddQuantityDialog> {
   final DbController dbController = Get.put(DbController());
   final quantityController = TextEditingController();
   TextEditingController priceController = TextEditingController();
+  TextEditingController bonusController = TextEditingController();
+  TextEditingController discountController = TextEditingController();
   bool _isUploading = false;
   String errorText = "";
   bool datafound = false;
@@ -45,6 +47,7 @@ class _AddQuantityDialogState extends State<AddQuantityDialog> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 5.0),
                 child: TextField(
+                  keyboardType: TextInputType.number,
                   controller: quantityController,
                   decoration: InputDecoration(
                       hintText: "Enter quantity",
@@ -63,9 +66,46 @@ class _AddQuantityDialogState extends State<AddQuantityDialog> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 5.0),
                 child: TextField(
+                  keyboardType: TextInputType.number,
                   controller: priceController,
                   decoration: InputDecoration(
                       hintText: "Enter Price",
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.blue,
+                          style: BorderStyle.solid,
+                        ),
+                      )),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                child: TextField(
+                  keyboardType: TextInputType.number,
+                  controller: bonusController,
+                  decoration: InputDecoration(
+                      hintText: "Enter Bonus",
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.blue,
+                          style: BorderStyle.solid,
+                        ),
+                      )),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                child: TextField(
+                  keyboardType: TextInputType.number,
+                  controller: discountController,
+                  decoration: InputDecoration(
+                      hintText: "Enter Discount",
                       border: OutlineInputBorder(
                         borderSide: BorderSide(
                           color: Colors.blue,
@@ -127,7 +167,9 @@ class _AddQuantityDialogState extends State<AddQuantityDialog> {
                                     medName: widget.medicineName,
                                     medicalStore: widget.storeName,
                                     price: priceController.text,
-                                    totalQty: quantityController.text));
+                                    totalQty: quantityController.text,
+                                    bonus: bonusController.text,
+                                    discount: "${discountController.text}%"));
                               }
                               Get.back();
                             } else {

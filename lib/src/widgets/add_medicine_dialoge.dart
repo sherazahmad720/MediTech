@@ -19,6 +19,7 @@ class _AddMedicineDialogState extends State<AddMedicineDialog> {
   final priceController = TextEditingController();
   bool _isUploading = false;
   String errorText = "";
+  String errorText2 = "";
   String dropdownValue = "Injections";
 
   @override
@@ -41,6 +42,7 @@ class _AddMedicineDialogState extends State<AddMedicineDialog> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 5.0),
                 child: TextField(
+                  keyboardType: TextInputType.text,
                   controller: nameController,
                   decoration: InputDecoration(
                       hintText: "Enter Name",
@@ -59,6 +61,7 @@ class _AddMedicineDialogState extends State<AddMedicineDialog> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 5.0),
                 child: TextField(
+                  keyboardType: TextInputType.number,
                   controller: priceController,
                   decoration: InputDecoration(
                       hintText: "Enter Price",
@@ -69,6 +72,10 @@ class _AddMedicineDialogState extends State<AddMedicineDialog> {
                         ),
                       )),
                 ),
+              ),
+              Text(
+                errorText2,
+                style: TextStyle(color: Colors.red, fontSize: 12),
               ),
               SizedBox(
                 height: 20,
@@ -137,7 +144,8 @@ class _AddMedicineDialogState extends State<AddMedicineDialog> {
                           color: Theme.of(context).primaryColor,
                           child: Text("Add"),
                           onPressed: () {
-                            if (nameController.text != "") {
+                            if (nameController.text != "" &&
+                                priceController.text != "") {
                               // setState(() {
                               //   _isUploading = true;
                               // });
@@ -152,7 +160,11 @@ class _AddMedicineDialogState extends State<AddMedicineDialog> {
                                   .then((value) => Get.back());
                             } else {
                               setState(() {
-                                errorText = "Please Add Name of Medicine...!";
+                                if (nameController.text == "") {
+                                  errorText = "Please Add Name of Medicine...!";
+                                } else {
+                                  errorText2 = "Please Enter The Price...!";
+                                }
                               });
                               print('Field is empty');
                             }
