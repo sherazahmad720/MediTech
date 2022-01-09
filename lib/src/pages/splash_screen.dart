@@ -17,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
   final colors = Get.put(ColorController());
   //NOTE  This function Count The Time Of splash screen
   startTime() async {
-    var duration = new Duration(seconds: 30);
+    var duration = new Duration(seconds: 3);
     return new Timer(duration, route);
   }
 

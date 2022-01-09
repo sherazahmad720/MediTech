@@ -18,8 +18,9 @@ class _OrderPageState extends State<OrderPage> {
     totalAmount = 0;
     for (int i = 0; i < dbController.order.length; i++) {
       totalAmount = totalAmount +
-          ((int.parse(dbController.order[i].price) *
-              int.parse(dbController.order[i].totalQty)));
+          (double.parse(dbController.order[i].price) *
+                  double.parse(dbController.order[i].totalQty))
+              .toInt();
     }
     return Text("Total Amount is ${totalAmount.toString()}",
         style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold));
@@ -156,7 +157,9 @@ class _OrderPageState extends State<OrderPage> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Expanded(
-                                  child: Text("${data.totalQty}+${data.bonus}"),
+                                  child: Text(data.bonus == ''
+                                      ? "${data.totalQty}"
+                                      : "${data.totalQty}+${data.bonus}"),
                                 ),
                                 Expanded(
                                   flex: 2,

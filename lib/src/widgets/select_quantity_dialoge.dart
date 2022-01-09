@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:medi_tech/Models/ordersModel.dart';
 
@@ -48,6 +49,9 @@ class _AddQuantityDialogState extends State<AddQuantityDialog> {
                 padding: const EdgeInsets.symmetric(horizontal: 5.0),
                 child: TextField(
                   keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
+                  ],
                   controller: quantityController,
                   decoration: InputDecoration(
                       hintText: "Enter quantity",
@@ -66,6 +70,9 @@ class _AddQuantityDialogState extends State<AddQuantityDialog> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 5.0),
                 child: TextField(
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(RegExp(r'(^\d*\.?\d*)'))
+                  ],
                   keyboardType: TextInputType.number,
                   controller: priceController,
                   decoration: InputDecoration(
@@ -84,6 +91,9 @@ class _AddQuantityDialogState extends State<AddQuantityDialog> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 5.0),
                 child: TextField(
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
+                  ],
                   keyboardType: TextInputType.number,
                   controller: bonusController,
                   decoration: InputDecoration(
@@ -102,6 +112,9 @@ class _AddQuantityDialogState extends State<AddQuantityDialog> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 5.0),
                 child: TextField(
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(RegExp(r'(^\d*\.?\d*)'))
+                  ],
                   keyboardType: TextInputType.number,
                   controller: discountController,
                   decoration: InputDecoration(
@@ -149,14 +162,18 @@ class _AddQuantityDialogState extends State<AddQuantityDialog> {
                                   datafound = true;
                                   print("data already present");
                                   dbController.order[i] = Orders(
-                                      totalQty: (int.parse(dbController
-                                                  .order[i].totalQty) +
-                                              int.parse(
-                                                  quantityController.text))
-                                          .toString(),
-                                      bonus: (int.parse(
-                                                  dbController.order[i].bonus) +
-                                              int.parse(bonusController.text))
+                                      totalQty:
+                                          (int.parse(dbController.order[i].totalQty) +
+                                                  int.parse(
+                                                      quantityController.text))
+                                              .toString(),
+                                      bonus: (dbController.order[i].bonus == ''
+                                              ? 0
+                                              : int.parse(dbController.order[i].bonus) +
+                                                  (bonusController.text.trim() == ''
+                                                      ? 0
+                                                      : int.parse(bonusController
+                                                          .text)))
                                           .toString(),
                                       date: dbController.order[i].date,
                                       medName: dbController.order[i].medName,

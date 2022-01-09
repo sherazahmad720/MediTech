@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:medi_tech/Models/MedicineModel.dart';
 import 'package:medi_tech/src/controllers/db_controller.dart';
@@ -61,6 +62,9 @@ class _AddMedicineDialogState extends State<AddMedicineDialog> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 5.0),
                 child: TextField(
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(RegExp(r'(^\d*\.?\d*)'))
+                  ],
                   keyboardType: TextInputType.number,
                   controller: priceController,
                   decoration: InputDecoration(

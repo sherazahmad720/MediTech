@@ -22,8 +22,9 @@ class _OrderDetailsState extends State<OrderDetails> {
     totalAmount = 0;
     for (int i = 0; i < widget.orders.length; i++) {
       totalAmount = totalAmount +
-          ((int.parse(widget.orders[i].price) *
-              int.parse(widget.orders[i].totalQty)));
+          ((double.parse(widget.orders[i].price) *
+                  int.parse(widget.orders[i].totalQty))
+              .toInt());
     }
     return Text("Total Amount is ${totalAmount.toString()}",
         style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold));
@@ -43,10 +44,20 @@ class _OrderDetailsState extends State<OrderDetails> {
                   onPressed: () {
                     // orderDetails = "${widget.orders[0].date}\n";
                     orderDetails =
-                        "$orderDetails  ${widget.orders[0].medicalStore}  (${widget.address})\n";
-                    for (var dataText in widget.orders)
+                        "$orderDetails  ${widget.orders[0].medicalStore} ${widget.address}\n";
+                    for (var dataText in widget.orders) {
+                      String discount = dataText.discount.trim() == '' ||
+                              dataText.discount.trim() == '%'
+                          ? ''
+                          : " ${dataText.discount}";
+
+                      String bonus = dataText.bonus.trim() == ''
+                          ? ''
+                          : "+ ${dataText.bonus} ";
+
                       orderDetails =
-                          "$orderDetails  ${dataText.totalQty}+${dataText.bonus} x ${dataText.medName} - ${dataText.price}/${dataText.discount} \n";
+                          "$orderDetails ${dataText.totalQty} $bonus x ${dataText.medName} - ${dataText.price} $discount \n";
+                    }
 
                     ShareController().shareApp(orderDetails);
                   })
