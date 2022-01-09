@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "786994436177",
+    "project_id": "meditech-7ebf0",
+    "storage_bucket": "meditech-7ebf0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:786994436177:android:76915aa5515bdec940c070",
+        "android_client_info": {
+          "package_name": "com.medi.tech"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "786994436177-li4jgk62f4okta8nvf97u2cat72h973m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1FcbskwiZbfO3un0ppLMRmRc68S_lvWU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "786994436177-li4jgk62f4okta8nvf97u2cat72h973m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

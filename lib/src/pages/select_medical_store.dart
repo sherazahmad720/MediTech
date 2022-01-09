@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:medi_tech/src/controllers/db_controller.dart';
 import 'package:medi_tech/src/pages/select_medicine.dart';
 import 'package:medi_tech/src/widgets/medical_store_card.dart';
-import 'package:intl/intl.dart';
 
 class SelectMedicalStore extends StatefulWidget {
   @override
@@ -72,18 +72,19 @@ class _SelectMedicalStoreState extends State<SelectMedicalStore> {
                   child: ListView.builder(
                       itemCount: _.medicalStoreList.length,
                       itemBuilder: (context, index) {
-                        if ((_.medicalStoreList[index].name).toLowerCase()
+                        if ((_.medicalStoreList[index].name)
+                            .toLowerCase()
                             .contains(searchText.toLowerCase())) {
                           return InkWell(
                             onTap: () {
                               _.address = _.medicalStoreList[index].address;
                               _.order.clear();
 
-                              Get.to(SelectMedicine(
-                                storeName: _.medicalStoreList[index].name,
-                                date: selectedDate,
-                                address: _.medicalStoreList[index].address,
-                              ));
+                              Get.to(() => SelectMedicine(
+                                    storeName: _.medicalStoreList[index].name,
+                                    date: selectedDate,
+                                    address: _.medicalStoreList[index].address,
+                                  ));
                             },
                             child: medicalStoreCard(
                                 _.medicalStoreList[index].name,
@@ -104,7 +105,7 @@ class _SelectMedicalStoreState extends State<SelectMedicalStore> {
   }
 
   Future<void> selectDate() async {
-    final DateTime picked = await showDatePicker(
+    final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: now,
         firstDate: DateTime(2015, 8),

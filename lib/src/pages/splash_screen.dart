@@ -17,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
   final colors = Get.put(ColorController());
   //NOTE  This function Count The Time Of splash screen
   startTime() async {
-    var duration = new Duration(seconds: 3);
+    var duration = new Duration(seconds: 30);
     return new Timer(duration, route);
   }
 
@@ -57,22 +57,34 @@ class _SplashScreenState extends State<SplashScreen> {
           alignment: Alignment.bottomCenter,
           child: Padding(
               padding: const EdgeInsets.only(bottom: 76),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text("powered by ",
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("Developed by ",
+                          style: GoogleFonts.nunito(
+                            fontSize: 12,
+                            color: Color(0xffffffff),
+                          )),
+                      Text(
+                        "Sherazi",
+                        style: GoogleFonts.nunito(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 12,
+                          color: Color(0xffffffff),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  Text("Version 0.1 (beta)",
                       style: GoogleFonts.nunito(
                         fontSize: 12,
                         color: Color(0xffffffff),
                       )),
-                  Text(
-                    "sherazii.com",
-                    style: GoogleFonts.nunito(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 12,
-                      color: Color(0xffffffff),
-                    ),
-                  ),
                 ],
               )),
         ),

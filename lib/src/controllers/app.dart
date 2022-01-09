@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_navigation/src/root/root_widget.dart';
 
 import 'package:medi_tech/src/controllers/color_controller.dart';
 import 'package:medi_tech/src/pages/splash_screen.dart';

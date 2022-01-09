@@ -28,7 +28,7 @@ class _SelectMedicineState extends State<SelectMedicine> {
           IconButton(
               icon: Icon(Icons.shopping_cart, color: Colors.white),
               onPressed: () {
-                Get.to(OrderPage());
+                Get.to(() => OrderPage());
               })
         ],
       ),

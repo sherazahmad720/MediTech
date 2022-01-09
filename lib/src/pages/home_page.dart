@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_simple_calculator/flutter_simple_calculator.dart';
+
+import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:get/get.dart';
 import 'package:medi_tech/src/controllers/db_controller.dart';
 import 'package:medi_tech/src/pages/medicalstore_list.dart';
 import 'package:medi_tech/src/pages/medicine_list.dart';
+import 'package:medi_tech/src/pages/order_page.dart';
 import 'package:medi_tech/src/pages/orders_list.dart';
 import 'package:medi_tech/src/pages/select_medical_store.dart';
 import 'package:medi_tech/src/widgets/heading_widget.dart';
+
+import 'back_up_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -21,7 +26,16 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text("MediTech"),
         actions: [
-          IconButton(icon: Icon(Icons.shopping_cart), onPressed: () {})
+          IconButton(
+              icon: Icon(Icons.backup),
+              onPressed: () {
+                Get.to(() => BackUpPage());
+              }),
+          IconButton(
+              icon: Icon(Icons.shopping_cart),
+              onPressed: () {
+                Get.to(() => OrderPage());
+              }),
         ],
       ),
       body: Container(child: GetBuilder<DbController>(
@@ -36,11 +50,11 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     InkWell(
                       onTap: () {
-                        Get.to(MedicalStoreList());
+                        Get.to(() => MedicalStoreList());
                       },
                       child: HeadingCard(
                         color: Color(0xffFF5151),
-                        count: _.totalMedicalstores,
+                        count: _.totalMedicalStores,
                         heading: "Mediacal \nStores",
                         icon: Icon(Icons.store, color: Colors.white),
                       ),
@@ -48,7 +62,7 @@ class _HomePageState extends State<HomePage> {
                     InkWell(
                       onTap: () {
                         // dbController.getMedicineList();
-                        Get.to(MedicineList());
+                        Get.to(() => MedicineList());
                       },
                       child: HeadingCard(
                           color: Color(0xff2DCE89),
@@ -70,21 +84,21 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     InkWell(
                       onTap: () {
-                        Get.to(OrdersList());
+                        Get.to(() => OrdersListPage());
                       },
                       child: HeadingCard(
                         color: Color(0xff5D78E3),
                         count: _.totalOrders,
                         heading: "Orders\n",
                         icon: Icon(
-                          FontAwesome.clipboard,
+                          FontAwesome.first_order,
                           color: Colors.white,
                         ),
                       ),
                     ),
                     InkWell(
                       onTap: () {
-                        Get.to(SelectMedicalStore());
+                        Get.to(() => SelectMedicalStore());
                       },
                       child: HeadingCard(
                           color: Color(0xffFE662D),
@@ -98,6 +112,10 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
               ),
+              SizedBox(
+                height: 30,
+              ),
+              Expanded(child: SimpleCalculator())
             ],
           );
         },

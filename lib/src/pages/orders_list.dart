@@ -5,12 +5,12 @@ import 'package:medi_tech/src/pages/order_details.dart';
 // import 'package:medi_tech/src/widgets/add_medical_store_dialoge.dart';
 import 'package:medi_tech/src/widgets/medical_store_card.dart';
 
-class OrdersList extends StatefulWidget {
+class OrdersListPage extends StatefulWidget {
   @override
-  _OrdersListState createState() => _OrdersListState();
+  _OrdersListPageState createState() => _OrdersListPageState();
 }
 
-class _OrdersListState extends State<OrdersList> {
+class _OrdersListPageState extends State<OrdersListPage> {
   DbController dbController = Get.put(DbController());
 
   String seachText = "";
@@ -108,7 +108,7 @@ class _OrdersListState extends State<OrdersList> {
                             },
                             onTap: () {
                               _.getSortedOrder(data.storeName, data.date).then(
-                                  (value) => Get.to(
+                                  (value) => Get.to(() =>
                                       OrderDetails(value, data.storeAddress)));
                             },
                             child: medicalStoreCard(

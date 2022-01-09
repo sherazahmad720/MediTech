@@ -12,15 +12,15 @@ import '../../Models/MedicalStoreModel.dart';
 
 class DbController extends GetxController {
 //Data base name variable
-  static Database _db;
+  Database? _db;
   //database name
   static const String DB_NAME = 'meditech.db';
-//Table varible
+//Table variable
   static const String TABLEMedicalStore = 'MedicalStore';
   static const String TABLEMedicine = 'Medicine';
   static const String TABLEOrders = 'Orders';
   static const String TABLEOrderList = 'OrderList';
-  //medicin field variable
+  //medicine field variable
   static const String MedId = 'medId';
   static const String MedName = 'medName';
   static const String MedPrice = 'medPrice';
@@ -42,10 +42,10 @@ class DbController extends GetxController {
 //Functions
   Future<Database> get db async {
     if (_db != null) {
-      return _db;
+      return _db!;
     }
     _db = await initDb();
-    return _db;
+    return _db!;
   }
 
   initDb() async {
@@ -69,7 +69,7 @@ class DbController extends GetxController {
 ////
   ///
   ///Variables
-  String totalMedicalstores = "0";
+  String totalMedicalStores = "0";
   String totalMedicines = "0";
   String totalOrders = "0";
 
@@ -79,7 +79,7 @@ class DbController extends GetxController {
   List<MedicalStore> medicalStoreList = [];
   List<Orders> order = [];
   List<Orders> savedOrder = [];
-  List<OrdersList> orderList = [];
+  List<OrdersListModel> orderList = [];
   String address = "";
   //
   // call All functions
@@ -103,7 +103,8 @@ class DbController extends GetxController {
 //Get medicine from data base
   Future getMedicineList() async {
     var dbCon = await db;
-    List<Map> maps = await dbCon.rawQuery('Select * from $TABLEMedicine');
+    List<Map<String, dynamic>> maps =
+        await dbCon.rawQuery('Select * from $TABLEMedicine');
     medicineList.clear();
     if (maps.length > 0) {
       for (int i = 0; i < maps.length; i++) {
@@ -112,6 +113,7 @@ class DbController extends GetxController {
     }
     count();
     update();
+    return;
   }
 
   //Delete Medicine
@@ -133,7 +135,8 @@ class DbController extends GetxController {
 //Get Medical Stores List from data base
   Future getMedicalStoreList() async {
     var dbCon = await db;
-    List<Map> maps = await dbCon.rawQuery('Select * from $TABLEMedicalStore');
+    List<Map<String, dynamic>> maps =
+        await dbCon.rawQuery('Select * from $TABLEMedicalStore');
     medicalStoreList.clear();
     if (maps.length > 0) {
       for (int i = 0; i < maps.length; i++) {
@@ -141,6 +144,7 @@ class DbController extends GetxController {
       }
       count();
       update();
+      return;
     }
   }
 
@@ -158,12 +162,14 @@ class DbController extends GetxController {
     await dbCon.insert(TABLEOrders, data.toMap());
     update();
     getOrder();
+    return;
   }
 
 //Get Orders
   Future getOrder() async {
     var dbCon = await db;
-    List<Map> maps = await dbCon.rawQuery('Select * from $TABLEOrders');
+    List<Map<String, dynamic>> maps =
+        await dbCon.rawQuery('Select * from $TABLEOrders');
     savedOrder.clear();
     if (maps.length > 0) {
       for (int i = 0; i < maps.length; i++) {
@@ -172,12 +178,13 @@ class DbController extends GetxController {
     }
     count();
     update();
+    return;
   }
 
 //Get sorted order
   Future getSortedOrder(String store, String date) async {
     var dbCon = await db;
-    List<Map> maps = await dbCon
+    List<Map<String, dynamic>> maps = await dbCon
         .rawQuery('Select * from $TABLEOrders Where $StoreName=? ', ['$store']);
     List<Orders> sortedOrder = [];
     if (maps.length > 0) {
@@ -199,28 +206,30 @@ class DbController extends GetxController {
     getOrder();
   }
 
-//add orderlists
-  Future saveOrderList(OrdersList data) async {
+//add order lists
+  Future saveOrderList(OrdersListModel data) async {
     var dbCon = await db;
     await dbCon.insert(TABLEOrderList, data.toMap());
     update();
     count();
     getOrderList();
+    return;
   }
 
 //Get Orders Lists
   Future getOrderList() async {
     var dbCon = await db;
-    List<Map> maps = await dbCon
+    List<Map<String, dynamic>> maps = await dbCon
         .rawQuery('Select * from $TABLEOrderList ORDER BY date($Date) DESC');
     orderList.clear();
     if (maps.length > 0) {
       for (int i = 0; i < maps.length; i++) {
-        orderList.add(OrdersList.fromMap(maps[i]));
+        orderList.add(OrdersListModel.fromMap(maps[i]));
       }
     }
     count();
     update();
+    return;
   }
 //Delete Order List
 
@@ -234,15 +243,27 @@ class DbController extends GetxController {
   //count medical store
   Future count() async {
     var dbCon = await db;
-    int countStores = Sqflite.firstIntValue(
+    int? countStores = Sqflite.firstIntValue(
         await dbCon.rawQuery('SELECT COUNT(*) FROM $TABLEMedicalStore'));
-    totalMedicalstores = countStores.toString();
-    int countMedicines = Sqflite.firstIntValue(
+    totalMedicalStores = countStores.toString();
+    int? countMedicines = Sqflite.firstIntValue(
         await dbCon.rawQuery('SELECT COUNT(*) FROM $TABLEMedicine'));
     totalMedicines = countMedicines.toString();
-    int countorders = Sqflite.firstIntValue(
+    int? countOrders = Sqflite.firstIntValue(
         await dbCon.rawQuery('SELECT COUNT(*) FROM $TABLEOrderList'));
-    totalOrders = countorders.toString();
+    totalOrders = countOrders.toString();
     update();
+  }
+
+  Future<void> cleanDatabase() async {
+    try {
+      var dbCon = await db;
+      await dbCon.rawQuery('DELETE FROM $TABLEMedicalStore');
+      await dbCon.rawQuery('DELETE FROM $TABLEMedicine');
+      await dbCon.rawQuery('DELETE FROM $TABLEOrderList');
+      await dbCon.rawQuery('DELETE FROM $TABLEOrders');
+    } catch (error) {
+      throw Exception('DbBase.cleanDatabase: ' + error.toString());
+    }
   }
 }

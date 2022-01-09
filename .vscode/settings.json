@@ -1,3 +1,9 @@
 {
-    "git.ignoreLimitWarning": true
+    "git.ignoreLimitWarning": true,
+    "cSpell.words": [
+        "AUTOINCREMENT",
+        "fluttericon",
+        "medi",
+        "sqflite"
+    ]
 }

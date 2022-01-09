@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:medi_tech/Models/OrderList.dart';
 import 'package:medi_tech/Models/ordersModel.dart';
 import 'package:medi_tech/src/controllers/db_controller.dart';
+import 'package:medi_tech/src/pages/home_page.dart';
 
 class OrderPage extends StatefulWidget {
   @override
@@ -43,20 +44,18 @@ class _OrderPageState extends State<OrderPage> {
                         child: RaisedButton(
                             color: Colors.green,
                             child: Text("Save order"),
-                            onPressed: () {
-                              Get.back();
-                              Get.back();
-                              Get.back();
+                            onPressed: () async {
+                              Get.offAll(HomePage());
 
                               if (_.order.length > 0) {
 // save in data base
-                                OrdersList data2 = OrdersList(
+                                OrdersListModel data2 = OrdersListModel(
                                   date: _.order[0].date,
                                   storeName: _.order[0].medicalStore,
                                   storeAddress: _.address,
                                 );
-                                dbController.saveOrderList(data2);
-                                for (var i = 0; i <= _.order.length; i++) {
+                                await dbController.saveOrderList(data2);
+                                for (var i = 0; i < _.order.length; i++) {
                                   Orders data = Orders(
                                     date: _.order[0].date,
                                     medicalStore: _.order[0].medicalStore,
@@ -66,8 +65,9 @@ class _OrderPageState extends State<OrderPage> {
                                     bonus: _.order[i].bonus,
                                     discount: _.order[i].discount,
                                   );
-                                  dbController.saveOrder(data);
+                                  await dbController.saveOrder(data);
                                 }
+                                _.order.clear();
                               }
                             }),
                       ),

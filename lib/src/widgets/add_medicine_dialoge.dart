@@ -82,41 +82,39 @@ class _AddMedicineDialogState extends State<AddMedicineDialog> {
               ),
               Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                  child: Expanded(
-                    child: Container(
-                      height: 50,
-                      decoration:
-                          BoxDecoration(border: Border.all(color: Colors.grey)),
-                      child: Row(
-                        children: [
-                          Text("Select Category",
-                              style: TextStyle(color: Colors.black45)),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          DropdownButton(
-                            value: dropdownValue,
-                            items: <String>[
-                              'Capsules',
-                              'Drops',
-                              'Injections',
-                              'Liquid',
-                              'Other',
-                              'Tablet'
-                            ].map((String value) {
-                              return new DropdownMenuItem<String>(
-                                value: value,
-                                child: new Text(value),
-                              );
-                            }).toList(),
-                            onChanged: (val) {
-                              setState(() {
-                                dropdownValue = val;
-                              });
-                            },
-                          )
-                        ],
-                      ),
+                  child: Container(
+                    height: 50,
+                    decoration:
+                        BoxDecoration(border: Border.all(color: Colors.grey)),
+                    child: Row(
+                      children: [
+                        Text("Select Category",
+                            style: TextStyle(color: Colors.black45)),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        DropdownButton(
+                          value: dropdownValue,
+                          items: <String>[
+                            'Capsules',
+                            'Drops',
+                            'Injections',
+                            'Liquid',
+                            'Other',
+                            'Tablet'
+                          ].map((String value) {
+                            return new DropdownMenuItem<String>(
+                              value: value,
+                              child: new Text(value),
+                            );
+                          }).toList(),
+                          onChanged: (String? val) {
+                            setState(() {
+                              dropdownValue = val!;
+                            });
+                          },
+                        )
+                      ],
                     ),
                   )),
               SizedBox(

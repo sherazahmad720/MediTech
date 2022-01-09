@@ -6,10 +6,10 @@ import 'package:get/get.dart';
 class HeadingCard extends StatelessWidget {
   // final HomeController homeController = Get.put(HomeController());
   final String heading;
-  final String count;
-  final Color color;
-  final Icon icon;
-  HeadingCard({this.color, this.count, this.heading, this.icon});
+  final String? count;
+  final Color? color;
+  final Icon? icon;
+  HeadingCard({this.color, this.count, this.heading = '', this.icon});
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -33,7 +33,7 @@ class HeadingCard extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    count,
+                    count ?? '',
                     style: TextStyle(
                       fontWeight: FontWeight.w700,
                       fontSize: 24,

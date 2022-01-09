@@ -154,6 +154,10 @@ class _AddQuantityDialogState extends State<AddQuantityDialog> {
                                               int.parse(
                                                   quantityController.text))
                                           .toString(),
+                                      bonus: (int.parse(
+                                                  dbController.order[i].bonus) +
+                                              int.parse(bonusController.text))
+                                          .toString(),
                                       date: dbController.order[i].date,
                                       medName: dbController.order[i].medName,
                                       medicalStore:
