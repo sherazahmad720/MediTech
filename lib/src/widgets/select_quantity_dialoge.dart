@@ -133,9 +133,9 @@ class _AddQuantityDialogState extends State<AddQuantityDialog> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  RaisedButton(
-                    textColor: Colors.white,
-                    color: Theme.of(context).primaryColor,
+                  ElevatedButton(
+                    // textColor: Colors.white,
+                    // color: Theme.of(context).primaryColor,
                     child: Text("Cancel"),
                     onPressed: () {
                       Navigator.of(context).pop();
@@ -147,9 +147,9 @@ class _AddQuantityDialogState extends State<AddQuantityDialog> {
                   ),
                   _isUploading
                       ? CircularProgressIndicator()
-                      : RaisedButton(
-                          textColor: Colors.white,
-                          color: Theme.of(context).primaryColor,
+                      : ElevatedButton(
+                          // textColor: Colors.white,
+                          // color: Theme.of(context).primaryColor,
                           child: Text("Add"),
                           onPressed: () {
                             if (quantityController.text != "") {

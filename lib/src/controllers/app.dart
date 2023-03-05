@@ -10,7 +10,10 @@ class MyApp extends StatelessWidget {
     final colors = Get.put(ColorController());
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(primaryColor: colors.bg),
+      theme: ThemeData(
+        primaryColor: colors.bg,
+        useMaterial3: true,
+      ),
       home: SplashScreen(),
     );
   }

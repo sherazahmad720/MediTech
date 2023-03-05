@@ -94,13 +94,13 @@ class _MedicineListState extends State<MedicineList> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
-                                              RaisedButton(
+                                              ElevatedButton(
                                                 onPressed: () {
                                                   Get.back();
                                                 },
                                                 child: Text("Cancel"),
                                               ),
-                                              RaisedButton(
+                                              ElevatedButton(
                                                 onPressed: () {
                                                   dbController.deleteMedicine(
                                                       data.medId.toString());

@@ -42,8 +42,8 @@ class _OrderPageState extends State<OrderPage> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 50.0),
-                        child: RaisedButton(
-                            color: Colors.green,
+                        child: ElevatedButton(
+                            // color: Colors.green,
                             child: Text("Save order"),
                             onPressed: () async {
                               Get.offAll(HomePage());

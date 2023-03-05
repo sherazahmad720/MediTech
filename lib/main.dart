@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:medi_tech/src/controllers/app.dart';
 import 'package:firebase_core/firebase_core.dart';

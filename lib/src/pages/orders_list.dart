@@ -82,13 +82,13 @@ class _OrdersListPageState extends State<OrdersListPage> {
                                                   MainAxisAlignment
                                                       .spaceBetween,
                                               children: [
-                                                RaisedButton(
+                                                ElevatedButton(
                                                   onPressed: () {
                                                     Get.back();
                                                   },
                                                   child: Text("Cancel"),
                                                 ),
-                                                RaisedButton(
+                                                ElevatedButton(
                                                   onPressed: () {
                                                     dbController
                                                         .deleteOrderList(data

@@ -81,9 +81,9 @@ class _AddMedicalStoreDialogState extends State<AddMedicalStoreDialog> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                RaisedButton(
-                  textColor: Colors.white,
-                  color: Theme.of(context).primaryColor,
+                ElevatedButton(
+                  // textColor: Colors.white,
+                  // color: Theme.of(context).primaryColor,
                   child: Text("Cancel"),
                   onPressed: () {
                     Navigator.of(context).pop();
@@ -95,9 +95,9 @@ class _AddMedicalStoreDialogState extends State<AddMedicalStoreDialog> {
                 ),
                 _isUploading
                     ? CircularProgressIndicator()
-                    : RaisedButton(
-                        textColor: Colors.white,
-                        color: Theme.of(context).primaryColor,
+                    : ElevatedButton(
+                        // textColor: Colors.white,
+                        // color: Theme.of(context).primaryColor,
                         child: Text("Add"),
                         onPressed: () {
                           if (nameController.text != "" &&
